@@ -1,23 +1,15 @@
 import moment from 'moment'
 import 'moment/locale/ru'
-import React from 'react'
+import PropTypes from 'prop-types'
 import './Calendar.css'
 
 moment.locale('ru')
 
-const getDayOfWeek = date => {
-	return moment(date).format('dddd')
-}
+const getDayOfWeek = date => moment(date).format('dddd')
+const getMonthName = date => moment(date).format('MMMM')
+const getMonthNameShort = date => moment(date).format('MMMM').toUpperCase()
 
-const getMonthName = date => {
-	return moment(date).format('MMMM')
-}
-
-const getMonthNameShort = date => {
-	return moment(date).format('MMMM').toUpperCase()
-}
-
-const Calendar = ({ date = new Date() }) => {
+const Calendar = ({ date }) => {
 	const currentDate = moment(date)
 	const startOfMonth = currentDate.clone().startOf('month').startOf('week')
 	const endOfMonth = currentDate.clone().endOf('month').endOf('week')
@@ -29,7 +21,6 @@ const Calendar = ({ date = new Date() }) => {
 		day.add(1, 'day')
 	}
 
-	const month = currentDate.format('MMMM')
 	const year = currentDate.format('YYYY')
 
 	return (
@@ -117,6 +108,14 @@ const Calendar = ({ date = new Date() }) => {
 			</table>
 		</div>
 	)
+}
+
+Calendar.propTypes = {
+	date: PropTypes.instanceOf(Date),
+}
+
+Calendar.defaultProps = {
+	date: new Date(),
 }
 
 export default Calendar
